@@ -1,0 +1,74 @@
+#include <stdio.h>
+#include <string.h>
+
+#define MAX_EMPLOYEES 50
+
+// Structure to store employee information
+struct Employee {
+    char name[50];
+    float hoursWorked;
+    float hourlyRate;
+    float totalPay;
+};
+
+// Function declarations
+void inputEmployeeData(struct Employee employees[], int *count);
+void displayEmployeeData(struct Employee employees[], int count);
+
+int main() {
+    struct Employee employees[MAX_EMPLOYEES];
+    int count = 0;
+
+    // Input employee data
+    inputEmployeeData(employees, &count);
+
+    // Display employee data and calculated total pay
+    displayEmployeeData(employees, count);
+
+    return 0;
+}
+
+// Function to input employee data
+void inputEmployeeData(struct Employee employees[], int *count) {
+    int numEmployees;
+
+    printf("Enter the number of employees: ");
+    scanf("%d", &numEmployees);
+
+    // Loop to input data for each employee
+    for (int i = 0; i < numEmployees; i++) {
+        printf("\nEnter details for employee %d:\n", i + 1);
+
+        // Input employee name
+        printf("Name: ");
+        getchar();  // Consume newline character from previous input
+        fgets(employees[i].name, sizeof(employees[i].name), stdin);
+        employees[i].name[strcspn(employees[i].name, "\n")] = '\0'; // Remove newline character
+
+        // Input hours worked and hourly rate
+        printf("Hours Worked: ");
+        scanf("%f", &employees[i].hoursWorked);
+
+        printf("Hourly Rate: ");
+        scanf("%f", &employees[i].hourlyRate);
+
+        // Calculate total pay
+        employees[i].totalPay = employees[i].hoursWorked * employees[i].hourlyRate;
+    }
+
+    *count = numEmployees;
+}
+
+// Function to display employee data and total pay
+void displayEmployeeData(struct Employee employees[], int count) {
+    printf("\nEmployee Payroll Details:\n");
+    printf("==============================================\n");
+    printf("Name\t\tHours Worked\tHourly Rate\tTotal Pay\n");
+    printf("==============================================\n");
+
+    for (int i = 0; i < count; i++) {
+        printf("%-15s\t%.2f\t\t%.2f\t\t%.2f\n", employees[i].name, employees[i].hoursWorked, employees[i].hourlyRate, employees[i].totalPay);
+    }
+
+    printf("==============================================\n");
+}
